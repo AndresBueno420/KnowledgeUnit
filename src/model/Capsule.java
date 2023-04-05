@@ -10,9 +10,10 @@ public class Capsule {
     private String chargeEmployee;
     private String lessonLearned;
     private boolean published;
-    private Status approve;
+    private Calendar publishDate;
+    private boolean approveState;
     
-    public void registerCapsule( String description, Type type, String nameEmployee, String chargeEmployee, String lessonLearned, Status aprove ){
+    public void registerCapsule( String description, Type type, String nameEmployee, String chargeEmployee, String lessonLearned){
         this.id = ID;
         ID++;
         this.description = description;
@@ -21,9 +22,35 @@ public class Capsule {
         this.chargeEmployee = chargeEmployee;
         this.lessonLearned = lessonLearned;
         this.published = false;
-        this.approve = DENIED;
+        this.approveState = false;
         
     }
+    public int getId(){
+        return id;
+    }
+    public boolean getApprove(){
+        return approveState;
+    }
+    public boolean getPublished(){
+        return published;
+    }
+    public Calendar getPublishedDate(){
+        return publishDate;
+    }
+    public Type getType(){
+        return type;
+    }
+    public void setType(Type type){
+        this.type = type;
+    }
+    public void setApprove(boolean newApprove){
+        this.approveState = newApprove;
+    }
+    public void setPublished(boolean newStatus){
+        this.published = newStatus;
+    }
+
+     
 
     
 }
