@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Calendar;
+
 public class Controller {
 
     public static final int SIZE_PROJECT = 10;
@@ -10,7 +12,7 @@ public class Controller {
         projects = new Project[SIZE_PROJECT];
         
     }
-    public void addProject(String projectName, String clientName,String initialDate, String endDate, double budget, String manager, String managerPhone, String clientPhone){
+    public void addProject(String projectName, String clientName,Calendar initialDate, Calendar endDate, double budget, String manager, String managerPhone, String clientPhone){
         Project project = new Project(projectName, clientName, initialDate, endDate, budget, manager, managerPhone, clientPhone);
         int pos = getFirstValidPosition();
         if(pos != -1){

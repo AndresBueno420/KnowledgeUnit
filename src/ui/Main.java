@@ -1,6 +1,8 @@
 package ui;
 import java.util.Scanner;
 import model.Controller;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public class Main {
     private Controller controller;
@@ -52,11 +54,10 @@ public class Main {
         return option; 
     }
 
-    public void executeOption(int option){
+    public void executeOption(int option) throws Exception{
         switch (option) {
             case 1:
-                 
-                System.out.println(controller);
+                addProject();
                 break;
 
             case 2:
@@ -75,6 +76,44 @@ public class Main {
                 System.out.println("Invalid Option!!"); 
                 break; 
         }
+    }
+
+    public void addProject()throws Exception{
+        String projectName;
+        String clientName;
+        String initialDate;
+        String endDate;
+        double budget;
+        String manager;
+        String managerPhone;
+        String clientPhone;
+
+        System.out.println("Type the name of the project: ");
+        projectName = reader.next();
+        System.out.println("Type the name of the client: ");
+        clientName = reader.next();
+        System.out.println("Type the number of the client: ");
+        clientPhone = reader.next();
+        System.out.println("Type the date of starting: ");
+        initialDate = reader.next();
+        System.out.println("Type the date of ending: ");
+        endDate = reader.next();
+        System.out.println("Type the budget for the project: ");
+        budget = reader.nextDouble();
+        System.out.println("who is the manager of the project: ");
+        manager = reader.next();
+        System.out.println("Type the number of the manager: ");
+        managerPhone = reader.next();
+        
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        Calendar beginDate = Calendar.getInstance();
+        beginDate.setTime(format.parse(initialDate));
+        Calendar finishDate = Calendar.getInstance();
+        finishDate.setTime(format.parse(endDate));
+
+        controller.addProject(projectName, clientName, beginDate, finishDate, budget, manager, managerPhone, clientPhone);
+
     }
 
     
