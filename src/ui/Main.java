@@ -85,6 +85,12 @@ public class Main {
         }
     }
 
+   // The `addProject()` method is responsible for getting input from the user to create a new project.
+   // It prompts the user to enter the project name, client name, client phone number, start date, end
+   // date, budget, manager name, and manager phone number. It then uses a `SimpleDateFormat` object to
+   // parse the start and end dates into `Calendar` objects. Finally, it calls the `addProject()`
+   // method of the `Controller` class to create the new project with the given information. The method
+   // throws an `Exception` if there is an error parsing the dates.
     public void addProject()throws Exception{
         String projectName;
         String clientName;
@@ -123,6 +129,10 @@ public class Main {
 
     }
 
+   /**
+    * This function registers stages for a project by taking input from the user for project name,
+    * expected start date, and real start date.
+    */
     public void registStages() throws Exception{
 
         String projectName = " ";
@@ -131,7 +141,7 @@ public class Main {
 
         System.out.println("Confirm the name of the project: ");
         projectName = reader.next();
-        System.out.println("Now, please, type the expected start date for the first stage: ");
+        System.out.println("Type the expected start date for the first stage: ");
         expectedStartDateStageStr = reader.next();
         Calendar expectedStartDateStage = stringsToCalendar(expectedStartDateStageStr);
 
@@ -144,6 +154,11 @@ public class Main {
         System.out.println("The project has been registed succesfully.");
     }
 
+   /**
+    * This function finishes the current stage of a project and initiates the next stage by taking
+    * input from the user for project name, end date, and estimated amount of months for the next
+    * stage.
+    */
     public void finishStage() throws Exception{
 
         String endDateStr = " ";
@@ -163,6 +178,10 @@ public class Main {
         System.out.println("The current stage was finished succesfully. The next stage has been initiated.");
 
     }
+    /**
+     * This function registers a capsule by taking input from the user and passing it to a controller
+     * to add it to a project.
+     */
     public void registCapsule(){
 
         String id = ""; 
@@ -195,6 +214,10 @@ public class Main {
         System.out.println("The capsule has been registed.");
 
     }
+   /**
+    * This function prompts the user to input information about a capsule and then calls a controller
+    * method to approve it.
+    */
     public void approveCapsule() throws Exception{
 
         boolean newStatus = true;
@@ -216,6 +239,10 @@ public class Main {
 
     }
 
+ /**
+  * This function prompts the user to input a project name and capsule ID, and then calls a controller
+  * method to publish the capsule with the given parameters.
+  */
     public void publishCapsule(){
 
         boolean publishStatus = true;
@@ -233,6 +260,12 @@ public class Main {
         System.out.println(url);
     }
 
+ /**
+  * The function converts a string date in the format "dd/MM/yyyy" to a Calendar object.
+  * 
+  * @param date The date parameter is a string representing a date in the format "dd/MM/yyyy".
+  * @return A Calendar object is being returned.
+  */
     public Calendar stringsToCalendar(String date) throws Exception{
         
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
