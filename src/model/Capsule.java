@@ -2,10 +2,9 @@ package model;
 import java.util.Calendar;
 
 public class Capsule {
-    static int ID = 0;
-    private int id;
+    private String id;
     private String description;
-    private Type type; 
+    private String type; 
     private String nameEmployee;
     private String chargeEmployee;
     private String lessonLearned;
@@ -13,9 +12,8 @@ public class Capsule {
     private Calendar publishDate;
     private boolean approveState;
     
-    public void registerCapsule( String description, Type type, String nameEmployee, String chargeEmployee, String lessonLearned){
-        this.id = ID;
-        ID++;
+    public Capsule( String id, String description, String type, String nameEmployee, String chargeEmployee, String lessonLearned){
+        this.id = id;
         this.description = description;
         this.type = type;
         this.nameEmployee = nameEmployee;
@@ -25,7 +23,7 @@ public class Capsule {
         this.approveState = false;
         
     }
-    public int getId(){
+    public String getId(){
         return id;
     }
     public boolean getApprove(){
@@ -37,12 +35,15 @@ public class Capsule {
     public Calendar getPublishedDate(){
         return publishDate;
     }
-    public Type getType(){
-        return type;
+    public void setPublishDate(Calendar publishDate){
+        this.publishDate = publishDate;
     }
-    public void setType(Type type){
-        this.type = type;
-    }
+    //public Type getType(){
+        //return type;
+    //}
+    //public void setType(Type type){
+       // this.type = type;
+    //}
     public void setApprove(boolean newApprove){
         this.approveState = newApprove;
     }

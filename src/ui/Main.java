@@ -58,19 +58,26 @@ public class Main {
         switch (option) {
             case 1:
                 addProject();
+                registStages();
                 break;
 
             case 2:
-                
+                finishStage();
                 break;
 
             case 3: 
-                
+                registCapsule();
                 break;
 
-            case 6:
-                System.out.println("Exit."); 
+            case 4:
+                approveCapsule();
                 break; 
+
+            case 5:
+                publishCapsule();;
+                break; 
+            case 6:
+                break;
 
             case -1: 
                 System.out.println("Invalid Option!!"); 
@@ -115,6 +122,127 @@ public class Main {
         controller.addProject(projectName, clientName, beginDate, finishDate, budget, manager, managerPhone, clientPhone);
 
     }
+
+    public void registStages() throws Exception{
+
+        String projectName = " ";
+        String expectedStartDateStageStr = " ";
+        String realStartStageDateStr = " ";
+
+        System.out.println("Confirm the name of the project: ");
+        projectName = reader.next();
+        System.out.println("Now, please, type the expected start date for the first stage: ");
+        expectedStartDateStageStr = reader.next();
+        Calendar expectedStartDateStage = stringsToCalendar(expectedStartDateStageStr);
+
+        System.out.println("Type the real start date for the first stage: ");
+        realStartStageDateStr = reader.next();
+        Calendar realStartDate = stringsToCalendar(realStartStageDateStr);
+
+        controller.initializeStages(projectName, expectedStartDateStage, realStartDate);
+
+        System.out.println("The project has been registed succesfully.");
+    }
+
+    public void finishStage() throws Exception{
+
+        String endDateStr = " ";
+        int amountMonths = 0;
+        String projectName = " ";
+
+        System.out.println("Type the name of the project: ");
+        projectName =reader.next();
+        System.out.println("The current stage will be finished. Please, type today's date: ");
+        endDateStr = reader.next();
+        Calendar endDate = stringsToCalendar(endDateStr);
+        System.out.println("Type the estimated amount of months for the next stage: ");
+        amountMonths = reader.nextInt();
+
+        controller.finishStage(projectName, endDate, amountMonths);
+
+        System.out.println("The current stage was finished succesfully. The next stage has been initiated.");
+
+    }
+    public void registCapsule(){
+
+        String id = ""; 
+        String description = "";
+        String workerName = "";
+        String workerCharge = "";
+        String lection = "";
+        String type = "";
+        String projectName = " ";
+         
+        System.out.println("Type the name of the project.");
+        projectName = reader.next();
+        System.out.println("Type the capsule id: "); 
+        id = reader.next(); 
+        System.out.println("Type a short description: ");
+        reader.next(); 
+        description = reader.nextLine();
+        System.out.println("Type the kind of the capsule: ");
+        type = reader.next();
+        System.out.println("Type the worker name: ");
+        workerName = reader.next();
+        System.out.println("Type the worker charge: ");
+        workerCharge = reader.next();
+        System.out.println("Type the lection to save: ");
+        reader.next();
+        lection = reader.nextLine(); 
+
+        controller.addCapsule(projectName, id, type , description, workerName, workerCharge,lection);
+
+        System.out.println("The capsule has been registed.");
+
+    }
+    public void approveCapsule() throws Exception{
+
+        boolean newStatus = true;
+        String capsuleId = " ";
+        String publishDateStr = " ";
+        String projectName = " ";
+
+        System.out.println("Type the name of the project: ");
+        projectName = reader.next();
+        System.out.println("Please, type the id of the capsule to approve:  ");
+        capsuleId = reader.next();
+        System.out.println("Please, type today's date: ");
+        publishDateStr = reader.next();
+        Calendar publishDate = stringsToCalendar(publishDateStr);
+
+        String msgConfirm = controller.approveCapsule(projectName, capsuleId, publishDate, newStatus);
+
+        System.out.println(msgConfirm);
+
+    }
+
+    public void publishCapsule(){
+
+        boolean publishStatus = true;
+        String capsuleId = " ";
+        String projectName = " ";
+
+        System.out.println("Please, type the name of the project: ");
+        projectName = reader.next();
+        System.out.println("Please, type the id of the capsule to publish: ");
+        capsuleId = reader.next();
+        
+
+        String url = controller.publishCapsule(projectName, capsuleId, publishStatus);
+
+        System.out.println(url);
+    }
+
+    public Calendar stringsToCalendar(String date) throws Exception{
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        Calendar newDate = Calendar.getInstance();
+        newDate.setTime(formatter.parse(date));
+
+        return newDate; 
+    }
+
 
     
 }

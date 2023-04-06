@@ -55,9 +55,18 @@ public Stages(Calendar beginDate, Calendar realBeginDate){
     public Calendar getBeginDate(){
         return beginDate;
 }
+    public void setBeginDate(Calendar newBeginDate){
+        this.beginDate = newBeginDate;
+    }
     public Calendar getEndDate(){
         return endDate;
 }
+     public void setEndDate(int monthsBetweenStages){
+        Calendar beginDates = getBeginDate();
+        Calendar endDates = (Calendar) beginDates.clone();
+        endDates.add(Calendar.MONTH, monthsBetweenStages);
+        this.endDate = endDates;
+    }
     public boolean getApprove(){
         return approve;
     }
@@ -70,12 +79,17 @@ public Stages(Calendar beginDate, Calendar realBeginDate){
     public void setActive(boolean status){
         this.active = status;
     }
-
-    public void setEndDate(int monthsBetweenStages){
-        Calendar beginDates = getBeginDate();
-        Calendar endDates = (Calendar) beginDates.clone();
-        endDates.add(Calendar.MONTH, monthsBetweenStages);
-        this.endDate = endDates;
+    public Calendar getRealBeginDate(){
+        return realBeginDate;
+    }
+    public void setRealStartDate(Calendar realStartDate){
+        this.realBeginDate = realStartDate;
+    }
+    public Calendar getRealEndDate(){
+        return realendDate;
+    }
+    public void setRealEndDate(Calendar endDate){
+        this.realendDate = endDate;
     }
 
 
