@@ -13,7 +13,7 @@ public class Main {
         controller = new Controller();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args)throws Exception{
 
         Main view = new Main();
 
@@ -21,6 +21,8 @@ public class Main {
 
         do{
             view.menu();
+            option = view.validateIntegerInput();
+            view.executeOption(option);
 
 
 
@@ -87,8 +89,8 @@ public class Main {
 
    // The `addProject()` method is responsible for getting input from the user to create a new project.
    // It prompts the user to enter the project name, client name, client phone number, start date, end
-   // date, budget, manager name, and manager phone number. It then uses a `SimpleDateFormat` object to
-   // parse the start and end dates into `Calendar` objects. Finally, it calls the `addProject()`
+   // date, budget, manager name, and manager phone number. 
+   //It then uses a `SimpleDateFormat` object to parse the start and end dates into `Calendar` objects. Finally, it calls the `addProject()`
    // method of the `Controller` class to create the new project with the given information. The method
    // throws an `Exception` if there is an error parsing the dates.
     public void addProject()throws Exception{
@@ -131,7 +133,7 @@ public class Main {
 
    /**
     * This function registers stages for a project by taking input from the user for project name,
-    * expected start date, and real start date.
+    * expected start date, and real start date. Initially we take these to date in order operate them 
     */
     public void registStages() throws Exception{
 
@@ -160,22 +162,31 @@ public class Main {
     * stage.
     */
     public void finishStage() throws Exception{
-
+        
+        boolean flag = controller.checkProject();
         String endDateStr = " ";
         int amountMonths = 0;
         String projectName = " ";
 
-        System.out.println("Type the name of the project: ");
-        projectName =reader.next();
-        System.out.println("The current stage will be finished. Please, type today's date: ");
-        endDateStr = reader.next();
-        Calendar endDate = stringsToCalendar(endDateStr);
-        System.out.println("Type the estimated amount of months for the next stage: ");
-        amountMonths = reader.nextInt();
+        if(flag == true){
+            System.out.println("Type the name of the project: ");
+            projectName =reader.next();
+            System.out.println("The current stage will be finished. Please, type today's date: ");
+            endDateStr = reader.next();
+            Calendar endDate = stringsToCalendar(endDateStr);
+            System.out.println("Type the estimated amount of months for the next stage: ");
+            amountMonths = reader.nextInt();
+    
+            controller.finishStage(projectName, endDate, amountMonths);
+    
+            System.out.println("The current stage was finished succesfully. The next stage has been initiated.");
 
-        controller.finishStage(projectName, endDate, amountMonths);
-
-        System.out.println("The current stage was finished succesfully. The next stage has been initiated.");
+        }
+        else if(flag == false){
+            System.out.println("There is no project created yet");
+        }
+    
+        
 
     }
     /**
@@ -184,6 +195,7 @@ public class Main {
      */
     public void registCapsule(){
 
+        boolean flag = controller.checkProject();
         String id = ""; 
         String description = "";
         String workerName = "";
@@ -191,27 +203,35 @@ public class Main {
         String lection = "";
         String type = "";
         String projectName = " ";
-         
-        System.out.println("Type the name of the project.");
-        projectName = reader.next();
-        System.out.println("Type the capsule id: "); 
-        id = reader.next(); 
-        System.out.println("Type a short description: ");
-        reader.next(); 
-        description = reader.nextLine();
-        System.out.println("Type the kind of the capsule: ");
-        type = reader.next();
-        System.out.println("Type the worker name: ");
-        workerName = reader.next();
-        System.out.println("Type the worker charge: ");
-        workerCharge = reader.next();
-        System.out.println("Type the lection to save: ");
-        reader.next();
-        lection = reader.nextLine(); 
+
+        if(flag == true){
+            System.out.println("Type the name of the project.");
+            projectName = reader.next();
+            System.out.println("Type the capsule id: "); 
+            id = reader.next(); 
+            System.out.println("Type a short description: ");
+            reader.next(); 
+            description = reader.nextLine();
+            System.out.println("Type the kind of the capsule: ");
+            type = reader.next();
+            System.out.println("Type the worker name: ");
+            workerName = reader.next();
+            System.out.println("Type the worker charge: ");
+            workerCharge = reader.next();
+            System.out.println("Type the lection to save: ");
+            reader.next();
+            lection = reader.nextLine(); 
 
         controller.addCapsule(projectName, id, type , description, workerName, workerCharge,lection);
 
         System.out.println("The capsule has been registed.");
+            
+
+        }
+        else if(flag == false){
+            System.out.println("There is no project created yet");
+        }
+    
 
     }
    /**
@@ -220,23 +240,28 @@ public class Main {
     */
     public void approveCapsule() throws Exception{
 
+        boolean flag = controller.checkProject();
         boolean newStatus = true;
         String capsuleId = " ";
         String publishDateStr = " ";
         String projectName = " ";
 
-        System.out.println("Type the name of the project: ");
-        projectName = reader.next();
-        System.out.println("Please, type the id of the capsule to approve:  ");
-        capsuleId = reader.next();
-        System.out.println("Please, type today's date: ");
-        publishDateStr = reader.next();
-        Calendar publishDate = stringsToCalendar(publishDateStr);
-
-        String msgConfirm = controller.approveCapsule(projectName, capsuleId, publishDate, newStatus);
-
-        System.out.println(msgConfirm);
-
+        if(flag == true){
+            System.out.println("Type the name of the project: ");
+            projectName = reader.next();
+            System.out.println("Please, type the id of the capsule to approve:  ");
+            capsuleId = reader.next();
+            System.out.println("Please, type today's date: ");
+            publishDateStr = reader.next();
+            Calendar publishDate = stringsToCalendar(publishDateStr);
+    
+            String msgConfirm = controller.approveCapsule(projectName, capsuleId, publishDate, newStatus);
+    
+            System.out.println(msgConfirm);
+        }
+        else if(flag == false){
+            System.out.println("There is no project created yet");
+        }
     }
 
  /**
@@ -245,19 +270,27 @@ public class Main {
   */
     public void publishCapsule(){
 
+        boolean flag = controller.checkProject();
         boolean publishStatus = true;
         String capsuleId = " ";
         String projectName = " ";
 
-        System.out.println("Please, type the name of the project: ");
-        projectName = reader.next();
-        System.out.println("Please, type the id of the capsule to publish: ");
-        capsuleId = reader.next();
+        if(flag == true){
+            System.out.println("Please, type the name of the project: ");
+            projectName = reader.next();
+            System.out.println("Please, type the id of the capsule to publish: ");
+            capsuleId = reader.next();
         
 
-        String url = controller.publishCapsule(projectName, capsuleId, publishStatus);
+            String url = controller.publishCapsule(projectName, capsuleId, publishStatus);
 
-        System.out.println(url);
+            System.out.println(url);
+
+        }
+        else if(flag == false){
+            System.out.println("There is no project created yet");
+        }
+       
     }
 
  /**

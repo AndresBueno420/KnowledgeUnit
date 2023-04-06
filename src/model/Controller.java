@@ -285,9 +285,33 @@ public class Controller {
 					}
 				}
 			}
+            else{
+                System.out.println("No project found under that name.");
+            }
 		}
 
 
 	}
+
+    
+   /**
+    * This function checks if there is at least one project in an array of projects.
+    * 
+    * @return The method is returning a boolean value, which indicates whether all the elements in the
+    * projects array are not null. If all elements are not null, the method returns true, otherwise, it
+    * returns false.
+    */
+    public boolean checkProject(){
+        boolean flag = false;
+        for(int i = 0; i < SIZE_PROJECT && !flag; i++){
+            if(projects[i] != null){
+                flag = true;
+            }
+            else{
+                flag = false;
+            }
+        }
+        return flag;
+    }
     
 }
