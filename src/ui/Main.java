@@ -26,7 +26,7 @@ public class Main {
 
 
 
-        }while(option != 6);
+        }while(option != 7);
 
         System.out.println("Thanks for using the system. ");
 
@@ -38,7 +38,8 @@ public class Main {
         System.out.println("3. Register knowledge capsule.");
         System.out.println("4. Approve capsule.");
         System.out.println("5. Publish capsule .");
-        System.out.println("6. Exit.");
+        System.out.println("6. Show the amount of capsules for each type.");
+        System.out.println("7. Exit.");
 
         
     }
@@ -76,9 +77,10 @@ public class Main {
                 break; 
 
             case 5:
-                publishCapsule();;
+                publishCapsule();
                 break; 
             case 6:
+                showCountCapsuleType();
                 break;
 
             case -1: 
@@ -201,7 +203,7 @@ public class Main {
         String workerName = "";
         String workerCharge = "";
         String lection = "";
-        String type = "";
+        int type;
         String projectName = " ";
 
         if(flag == true){
@@ -212,8 +214,6 @@ public class Main {
             System.out.println("Type a short description: ");
             reader.next(); 
             description = reader.nextLine();
-            System.out.println("Type the kind of the capsule: ");
-            type = reader.next();
             System.out.println("Type the worker name: ");
             workerName = reader.next();
             System.out.println("Type the worker charge: ");
@@ -221,8 +221,14 @@ public class Main {
             System.out.println("Type the lection to save: ");
             reader.next();
             lection = reader.nextLine(); 
+            System.out.println("Choose the type of capsule :"); 
+            System.out.println(" 1. for Technic");
+            System.out.println(" 2. for Management. ");
+            System.out.println(" 3. for Domain. ");
+            System.out.println(" 4. for Experience. ");
+            type = reader.nextInt();
 
-        controller.addCapsule(projectName, id, type , description, workerName, workerCharge,lection);
+        controller.addCapsule(projectName, id, type, description, workerName, workerCharge,lection);
 
         System.out.println("The capsule has been registed.");
             
@@ -307,6 +313,19 @@ public class Main {
         newDate.setTime(formatter.parse(date));
 
         return newDate; 
+    }
+
+    public void showCountCapsuleType(){
+        boolean flag = controller.checkProject();
+        
+        if( flag == true){
+            controller.showCount1();
+        }
+        else if(flag == false){
+            System.out.println("There is no project created yet");
+        }
+        
+
     }
 
 

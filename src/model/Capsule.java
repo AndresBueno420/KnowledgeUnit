@@ -11,21 +11,23 @@ public class Capsule {
     private boolean published;
     private Calendar publishDate;
     private boolean approveState;
+    private Type capsuleType;
     
   
  // This is a constructor method for the Capsule class that takes in six parameters: id, description,
  // type, nameEmployee, chargeEmployee, and lessonLearned. It initializes the instance variables of the
  // Capsule object with the values passed in as parameters, and sets the published and approveState
  // variables to false.
-    public Capsule( String id, String description, String type, String nameEmployee, String chargeEmployee, String lessonLearned){
+    public Capsule( String id, String description, String nameEmployee, String chargeEmployee, String lessonLearned, Type capsuleType){
         this.id = id;
         this.description = description;
-        this.type = type;
+        this.capsuleType = capsuleType;
         this.nameEmployee = nameEmployee;
         this.chargeEmployee = chargeEmployee;
         this.lessonLearned = lessonLearned;
         this.published = false;
         this.approveState = false;
+    
         
     }
    /**

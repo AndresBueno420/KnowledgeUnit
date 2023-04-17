@@ -7,14 +7,19 @@ public class Controller {
 
     public static final int SIZE_PROJECT = 10;
     private Project[] projects;
+    static int technicCounter = 0;
+    static int managementCounter = 0;
+    static int domainCounter = 0;
+    static int experienceCounter = 0;
     
 
     public Controller(){
         projects = new Project[SIZE_PROJECT];
         
     }
+  
    /**
-    * This function adds a new project to an array of projects with the given project details.
+    * This function adds a new project to the array of projects with the given project details.
     * 
     * @param projectName A string representing the name of the project.
     * @param clientName The name of the client for whom the project is being done.
@@ -119,15 +124,38 @@ public class Controller {
    * @param lessonLearned A string that represents the lesson learned from the capsule. It could be a
    * summary of the experience gained or the knowledge acquired from the capsule.
    */
-    public void addCapsule(String projectName, String capsuleId, String type, String capsuledescription, String nameEmployee, String chargeEmployee, String lessonLearned ){
+    public void addCapsule(String projectName, String capsuleId, int type, String capsuledescription, String nameEmployee, String chargeEmployee, String lessonLearned ){
 
         boolean projectFound = false;
         boolean stageFound = false;
         boolean activatedState = false;
+        Type capsuleCategory = null;
+        int technicCounter = 0;
+        int managementCounter = 0;
+        int domainCounter = 0;
+        int experienceCounter = 0;
 
-        Capsule capsule = new Capsule(capsuleId, capsuledescription, type, nameEmployee, chargeEmployee, lessonLearned);
+        if(type == 1){
+            capsuleCategory = Type.TECHNIC;
+            technicCounter += 1;
+        }
+        else if(type == 2){
+            capsuleCategory = Type.MANAGEMENT;
+            managementCounter += 1;
+        }
+        else if(type == 3){
+            capsuleCategory = Type.DOMAIN;
+            domainCounter += 1;
+        }
+        else if(type == 4){
+            capsuleCategory = Type.EXPERIENCE;
+            experienceCounter += 1;
+        }
+
+
+        Capsule capsule = new Capsule(capsuleId, capsuledescription, nameEmployee, chargeEmployee, lessonLearned, capsuleCategory);
         for(int i = 0; i < SIZE_PROJECT && !projectFound ; i++){
-            if(projects[i].getName().equals(projectName)){
+            if(projects[i].getName().equalsIgnoreCase(projectName)){
                 Stages[] stages = projects[i].getStages();
                 projectFound = true;
                 for(int z = 0; z < stages.length && !stageFound; z++){
@@ -164,7 +192,7 @@ public class Controller {
         String msg = "";
 
         for(int i = 0; i < SIZE_PROJECT && !projectFound; i++){
-            if(projects[i].getName().equals(projectName)){
+            if(projects[i].getName().equalsIgnoreCase(projectName)){
                 Stages[] stages = projects[i].getStages();
                 projectFound = true;
                 for(int x = 0; x < 6 && !stageFound; x++ ){
@@ -313,5 +341,12 @@ public class Controller {
         }
         return flag;
     }
-    
+
+    public void showCount1(){
+        System.out.println("The amount of technic capsules is :" + technicCounter);
+        System.out.println("The amount of management capsules is :" + managementCounter);
+        System.out.println("The amount of domain capsules is :" + domainCounter);
+        System.out.println("The amount of experience capsules is :" + experienceCounter);
+    }
+   
 }
