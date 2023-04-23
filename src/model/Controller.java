@@ -56,14 +56,16 @@ public class Controller {
 		return pos; 
 	}
 
-    /**
-     * This function initializes stages for a project with given start dates and adds them to the
-     * project.
-     * 
-     * @param projectName a String representing the name of the project to be initialized
-     * @param beginDate The planned start date of the project's stages.
-     * @param realBeginDate A Calendar object representing the actual start date of the project.
-     */
+    
+   /**
+    * This function initializes stages for a project with given start dates and duration.
+    * 
+    * @param projectName The name of the project to which the stages will be added.
+    * @param beginDate The start date of the project's first stage.
+    * @param realBeginDate The actual start date of the project, which may differ from the planned
+    * start date (beginDate).
+    * @param StageMonths The duration of each stage in months.
+    */
     public void initializeStages(String projectName, Calendar beginDate, Calendar realBeginDate, int StageMonths)throws Exception{
 
         String controllerDate = "01/01/2011";
@@ -346,8 +348,13 @@ public class Controller {
         return flag;
     }
 
+  
    /**
-    * This function displays the count of different types of capsules.
+    * The function returns a string message displaying the count of different types of capsules.
+    * 
+    * @return The method `showCount1()` returns a string message that displays the count of four
+    * different types of capsules: technic, management, domain, and experience. The message includes
+    * the count of each type of capsule.
     */
     public String showCount1(){
         String msg = "The The amount of technic capsules is :" + technicCounter + "The amount of management capsules is :" + managementCounter + "The amount of domain capsules is :" + domainCounter + "The amount of experience capsules is :" + experienceCounter;
@@ -368,7 +375,7 @@ public class Controller {
      */
     public String showLearnedLessonsByStage(String projectName, int positionStage){
 
-        String msg = " ";
+        String msg = " No projects Registered yet";
         boolean foundProject = true;
 
         for(int i = 0; i < SIZE_PROJECT && !foundProject; i ++){
@@ -387,7 +394,7 @@ public class Controller {
                     }
                 }
             }
-            msg = "No projects registered yet.";
+            
         }
         return msg;
     }

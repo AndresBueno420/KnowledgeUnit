@@ -176,12 +176,6 @@ public class Main {
 
         controller.initializeStages(projectName, expectedStartDateStage, realStartDate, expectedMonths);
 
-        System.out.println("Confirm the name of the project, to set the dates: ");
-        projectName = reader.next();
-
-        controller.setStartDate(projectName);
-        controller.setEndDate(projectName, expectedMonths);
-
         System.out.println("The project has been registed succesfully.");
     }
 
