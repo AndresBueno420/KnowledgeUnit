@@ -43,7 +43,8 @@ public class Main {
         System.out.println("7. Show the lessons learned on a stage of a project. ");
         System.out.println("8. Show the project with most capsules. ");
         System.out.println("9. Search if a worker has registered a capsule. ");
-        System.out.println("10. Exit.");
+        System.out.println("10. Search lessons with hashtag. ");
+        System.out.println("11. Exit.");
         System.out.println(" ------------------------------------ ");
 
         
@@ -97,6 +98,10 @@ public class Main {
                 break;
             case 9:
                 showCapsuleByWorker();
+                break;
+            case 10:
+                searchLessonsWithHastag();
+                break;
 
             case -1: 
                 System.out.println("Invalid Option!!"); 
@@ -426,6 +431,15 @@ public class Main {
         workerName = reader.next();
 
         String msg = controller.getCapsulesByWorker(workerName);
+        System.out.println(msg);
+    }
+    public void searchLessonsWithHastag(){
+        String hashtag = " ";
+
+        System.out.println("Type the hashtag to be found: ");
+        hashtag = reader.next();
+
+        String msg = controller.getLessonsWithHashtag(hashtag);
         System.out.println(msg);
     }
 
