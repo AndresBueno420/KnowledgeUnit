@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 public class Stages {
     
 private static final int SIZE_CAPSULE = 50;
+private String name;
 private Calendar beginDate;
 private Calendar endDate;
 private Calendar realBeginDate;
@@ -18,8 +19,10 @@ private Capsule[] capsules;
 // variables with the values passed as parameters, and sets the `active` and `approve` instance
 // variables to `false`. It also creates a new array of `Capsule` objects with a size of `SIZE_CAPSULE`
 // and assigns it to the `capsules` instance variable.
-public Stages(Calendar beginDate, Calendar realBeginDate){
 
+public Stages(String name, Calendar beginDate, Calendar realBeginDate){
+
+    this.name = name;
     this.beginDate = beginDate;
     this.realBeginDate = realBeginDate;
     this.active = false;

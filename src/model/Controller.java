@@ -64,7 +64,7 @@ public class Controller {
      * @param beginDate The planned start date of the project's stages.
      * @param realBeginDate A Calendar object representing the actual start date of the project.
      */
-    public void initializeStages(String projectName, Calendar beginDate, Calendar realBeginDate)throws Exception{
+    public void initializeStages(String projectName, Calendar beginDate, Calendar realBeginDate, int StageMonths)throws Exception{
 
         String controllerDate = "01/01/2011";
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -78,27 +78,28 @@ public class Controller {
         for(int i = 0; i < SIZE_PROJECT && !flag; i++){
             if(projects[i] != null){
                 if(projects[i].getName().equals(projectName)){
-                    Stages startStage = new Stages(beginDate, realBeginDate);
+                    Stages startStage = new Stages("Start", beginDate, realBeginDate);
                     boolean stageStatus = startStage.getActive();
                     if(stageStatus == false){
                         stageStatus = true;
                         startStage.setActive(stageStatus);
+                        startStage.setEndDate(StageMonths);;
                     }
                     projects[i].addStages(startStage);
 
-                    Stages analysisStage = new Stages(beginDate, realBeginDate);
+                    Stages analysisStage = new Stages("Analisys Stage" , beginDate, realBeginDate);
                     projects[i].addStages(analysisStage);
 
-                    Stages designStage = new Stages(beginDate, realBeginDate);
+                    Stages designStage = new Stages( "Design", beginDate, realBeginDate);
                     projects[i].addStages(designStage);
 
-                    Stages executionStage = new Stages(beginDate, realBeginDate);
+                    Stages executionStage = new Stages("Execution", beginDate, realBeginDate);
                     projects[i].addStages(executionStage);
 
-                    Stages closeStage = new Stages(beginDate, realBeginDate);
+                    Stages closeStage = new Stages("Close", beginDate, realBeginDate);
                     projects[i].addStages(closeStage);
 
-                    Stages followAndControlStage = new Stages(beginDate, realBeginDate);
+                    Stages followAndControlStage = new Stages("FollowAndControl", beginDate, realBeginDate);
                     projects[i].addStages(followAndControlStage);
 
                 }
@@ -109,31 +110,27 @@ public class Controller {
     }
 
   
-  /**
-   * This function adds a capsule to a specific stage in a project, given the project name, capsule
-   * information, and the current active stage.
-   * 
-   * @param projectName The name of the project to which the capsule is being added.
-   * @param capsuleId A unique identifier for the capsule being added.
-   * @param type The type of the capsule being added (e.g. "technical", "management", "communication",
-   * etc.).
-   * @param capsuledescription A description of the capsule being added to the project.
-   * @param nameEmployee The name of the employee who created the capsule.
-   * @param chargeEmployee The chargeEmployee parameter is likely referring to the person who is
-   * responsible for overseeing or managing the capsule being added to the project.
-   * @param lessonLearned A string that represents the lesson learned from the capsule. It could be a
-   * summary of the experience gained or the knowledge acquired from the capsule.
-   */
+  
+    /**
+     * This function adds a capsule to a project's active stage based on the given parameters.
+     * 
+     * @param projectName The name of the project to which the capsule will be added.
+     * @param capsuleId A unique identifier for the capsule being added.
+     * @param type An integer representing the type of capsule being added.
+     * @param capsuledescription A description of the capsule being added.
+     * @param nameEmployee The name of the employee who created the capsule.
+     * @param chargeEmployee The chargeEmployee parameter is a String that represents the name of the
+     * employee who is in charge of the capsule being added.
+     * @param lessonLearned lessonLearned is a String parameter that represents the lesson learned from
+     * the capsule being added.
+     */
     public void addCapsule(String projectName, String capsuleId, int type, String capsuledescription, String nameEmployee, String chargeEmployee, String lessonLearned ){
 
         boolean projectFound = false;
         boolean stageFound = false;
         boolean activatedState = false;
         Type capsuleCategory = null;
-        int technicCounter = 0;
-        int managementCounter = 0;
-        int domainCounter = 0;
-        int experienceCounter = 0;
+      
 
         if(type == 1){
             capsuleCategory = Type.TECHNIC;
@@ -155,7 +152,7 @@ public class Controller {
 
         Capsule capsule = new Capsule(capsuleId, capsuledescription, nameEmployee, chargeEmployee, lessonLearned, capsuleCategory);
         for(int i = 0; i < SIZE_PROJECT && !projectFound ; i++){
-            if(projects[i].getName().equalsIgnoreCase(projectName)){
+            if(projects[i].getName().equals(projectName)){
                 Stages[] stages = projects[i].getStages();
                 projectFound = true;
                 for(int z = 0; z < stages.length && !stageFound; z++){
@@ -192,7 +189,7 @@ public class Controller {
         String msg = "";
 
         for(int i = 0; i < SIZE_PROJECT && !projectFound; i++){
-            if(projects[i].getName().equalsIgnoreCase(projectName)){
+            if(projects[i].getName().equals(projectName)){
                 Stages[] stages = projects[i].getStages();
                 projectFound = true;
                 for(int x = 0; x < 6 && !stageFound; x++ ){
@@ -207,8 +204,8 @@ public class Controller {
                                     msg = "The capsule" + " " + capsuleId + "has been changed." + "Approve date: " + publishDate; 
                                     foundCapsule = true;
                                 }
-                                else{
-                                    msg = "The capsule continues innappoved";
+                                else if (capsules[z].getApprove() == true){
+                                    msg = "The capsule is already approved";
                                 }
     
                             }
@@ -283,40 +280,47 @@ public class Controller {
                 return msg;
     }
 
-  /**
-   * This function finishes a stage of a project by updating the end date and start date of the next
-   * stage.
-   * 
-   * @param projectName A String representing the name of the project to finish a stage for.
-   * @param endDate A Calendar object representing the end date of the current stage.
-   * @param amountMonths The amount of months to be added to the end date of the current stage to set
-   * the start date of the next stage. However, this parameter is not used in the method
-   * implementation.
-   */
-    public void finishStage(String projectName, Calendar endDate, int amountMonths){
+  
+   /**
+    * This function deactivates the current stage of a project and activates the next stage, while
+    * setting the real end date of the current stage.
+    * 
+    * @param projectName A String representing the name of the project to finish a stage for.
+    * @param endDate A Calendar object representing the actual end date of the current stage.
+    * @param amountMonths The parameter "amountMonths" is not used in the given code snippet.
+    * @return The method is returning a String message indicating that the current stage has been
+    * deactivated and the next stage has been activated.
+    */
+    public String finishStage(String projectName, Calendar endDate, int amountMonths){
 
 		boolean isFoundProject = false;
+        boolean foundStage = true;
+        boolean activeStage = true;
+        boolean deactivateStage = false;
+        String msg = " ";
 
 		for(int o = 0; o < SIZE_PROJECT && !isFoundProject; o++){
 			if(projects[o].getName().equals(projectName)){
 				Stages[] stages = projects[o].getStages();
 				isFoundProject = true;
-				for(int i = 0; i < stages.length && !stages[i].active; i++){
-					if(i < stages.length){
-						stages[i].active = false;
+				for(int i = 0; i < stages.length && !foundStage; i++){
+					if(i < stages.length && stages[i] != null && stages[i].getActive() == true){
+						stages[i].setActive(deactivateStage);
+                        stages[i].setRealEndDate(endDate);
+                        foundStage = true;
 					}
 					if(i < stages.length - 1){
-						stages[i+1].active = true;
-						Calendar newStartDate = stages[i].getRealEndDate();
-						stages[i+1].setBeginDate(endDate);
-						stages[i+1].setRealStartDate(newStartDate);
+
+                        stages[i+1].setActive(activeStage);
+                        msg = "The current stage has been deactivated. The next stage has been activated. ";
+
+						
 					}
 				}
 			}
-            else{
-                System.out.println("No project found under that name.");
-            }
+            
 		}
+        return msg;
 
 
 	}
@@ -342,11 +346,185 @@ public class Controller {
         return flag;
     }
 
-    public void showCount1(){
-        System.out.println("The amount of technic capsules is :" + technicCounter);
-        System.out.println("The amount of management capsules is :" + managementCounter);
-        System.out.println("The amount of domain capsules is :" + domainCounter);
-        System.out.println("The amount of experience capsules is :" + experienceCounter);
+   /**
+    * This function displays the count of different types of capsules.
+    */
+    public String showCount1(){
+        String msg = "The The amount of technic capsules is :" + technicCounter + "The amount of management capsules is :" + managementCounter + "The amount of domain capsules is :" + domainCounter + "The amount of experience capsules is :" + experienceCounter;
+
+        return msg;
     }
+
+
+    /**
+     * This function returns a string containing the lessons learned for a specific stage of a project.
+     * 
+     * @param projectName A String representing the name of the project for which the learned lessons
+     * are to be shown.
+     * @param positionStage The position or index of the stage within the project's array of stages.
+     * @return The method returns a String containing the lessons learned for all capsules in the
+     * specified stage of the specified project, or a message indicating that no capsules or projects
+     * have been registered yet.
+     */
+    public String showLearnedLessonsByStage(String projectName, int positionStage){
+
+        String msg = " ";
+        boolean foundProject = true;
+
+        for(int i = 0; i < SIZE_PROJECT && !foundProject; i ++){
+            if(projects[i] != null){
+                if(projects[i].getName().equals(projectName)){
+                    Stages[] stages = projects[i].getStages();
+                    foundProject = false; 
+                    Capsule[] capsules = stages[positionStage].getCapsules();
+                    for(int x = 0; x < capsules.length ; x++){
+                        if(capsules[x] != null){
+                            msg += capsules[x].getLessonLearned() + "\n";
+                        }
+                        else{
+                            msg = "No capsules registered yet. ";
+                        }
+                    }
+                }
+            }
+            msg = "No projects registered yet.";
+        }
+        return msg;
+    }
+
+    /**
+     * This function returns a message indicating the project with the highest number of capsules among
+     * all registered projects.
+     * 
+     * @return The method returns a String message indicating the project with the most capsules and
+     * the number of capsules it has, or a message indicating that no projects are registered yet.
+     */
+    public String getProjectWithMostUnits(){
+        String msg = " ";
+        int max = 0;
+
+        for(int i = 0; i < projects.length ; i ++){
+            if(projects[i] != null){
+                if(projects[i].getAmountOfCapsules() > max){
+                    max = projects[i].getAmountOfCapsules();
+                    msg = "The project with most capsules is"  + projects[i].getName() + ", with " + max + "capsules. ";
+                }
+
+            }
+            else{
+                msg = "No projects registered yet. ";
+            }
+        }
+        return msg;
+    }
+    /**
+     * The function returns a message indicating whether a worker has registered a capsule in any of
+     * the projects and stages.
+     * 
+     * @param workerName A String representing the name of the worker whose capsules need to be
+     * searched for.
+     * @return The method returns a message indicating whether a worker has registered a capsule or
+     * not. The message can be "Yes, the worker: [workerName], has registered a capsule.", "No, the
+     * worker has not registered a capsule.", or "No capsule registered yet." depending on the
+     * conditions met in the loops. If there is no project registered yet, the message will be "There
+     * is no project registered
+     */
+    public String getCapsulesByWorker(String workerName){
+
+        String msg = " ";
+
+        for(int i = 0; i < SIZE_PROJECT; i++){
+            if(projects[i] != null){
+                for(int x = 0; x < projects[i].getStages().length; x++){
+                    if(projects[i].getStages()[x] != null){
+                        for(int z = 0; z < projects[i].getStages()[x].getCapsules().length; z++){
+                            if(projects[i].getStages()[x].getCapsules()[z] != null){
+                                if(projects[i].getStages()[x].getCapsules()[z].getEmployeeName().equalsIgnoreCase(workerName)){
+                                    msg = "Yes, the worker: " + workerName + ", has registered a capsule.";
+                                }
+                                else{
+                                    msg = "No, the worker has not registered a capsule. ";
+                                }
+
+                            }
+                            else{
+                                msg = "No capsule registered yet. ";
+                            }
+                        }
+                    }
+                }
+                
+
+            }
+            else{
+                msg = "There is no project registered yet.";
+            }
+        }
+        return msg;
+
+
+    }
+
+   /**
+    * This function sets the start date of a project stage based on the end date of the previous stage.
+    * 
+    * @param projectName A String representing the name of the project for which the start date needs
+    * to be set.
+    */
+    public void setStartDate(String projectName){
+        boolean foundProject = false;
+		boolean foundStage = false;
+
+		for(int i = 0; i < SIZE_PROJECT && !foundProject; i++){
+			if(projects[i] != null && projects[i].getName().equalsIgnoreCase(projectName)){
+				Stages[] stages = projects[i].getStages();
+				for(int j = 0; j < stages.length && !foundStage; j++){
+					if(i < stages.length && stages[i].getActive() == true){
+						foundStage = true;
+						Calendar newStartDate = stages[j-1].getRealEndDate();
+						stages[j].setRealStartDate(newStartDate);
+						stages[j].setBeginDate(newStartDate);
+					}
+				}
+
+			}
+		}
+
+    }
+/**
+ * This function sets the end date of an active stage in a project based on the project name and the
+ * amount of months to add.
+ * 
+ * @param projectName A String representing the name of the project for which the end date needs to be
+ * set.
+ * @param amountMonths The number of months to add to the end date of the active stage in the specified
+ * project.
+ */
+
+    public void setEndDate(String projectName,int amountMonths){
+
+        boolean foundProject = false;
+		boolean foundStage = false;
+
+		for(int i = 0; i < SIZE_PROJECT && !foundProject; i++){
+			if(projects[i] != null && projects[i].getName().equalsIgnoreCase(projectName)){
+				Stages[] stages = projects[i].getStages();
+				for(int j = 0; j < stages.length && !foundStage; j++){
+					if(i < stages.length && stages[i].getActive() == true){
+						foundStage = true;
+						stages[i].setEndDate(amountMonths);
+					}
+				}
+
+			}
+		}
+        
+
+
+
+    }
+    
+    
+
    
 }

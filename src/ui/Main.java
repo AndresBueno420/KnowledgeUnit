@@ -26,20 +26,25 @@ public class Main {
 
 
 
-        }while(option != 7);
+        }while(option != 10);
 
         System.out.println("Thanks for using the system. ");
 
 
     }
     public void menu(){
+        System.out.println(" ---------- GreenSQA System ----------");
         System.out.println("1. Create a project.");
         System.out.println("2. End stage of a project");
         System.out.println("3. Register knowledge capsule.");
         System.out.println("4. Approve capsule.");
         System.out.println("5. Publish capsule .");
         System.out.println("6. Show the amount of capsules for each type.");
-        System.out.println("7. Exit.");
+        System.out.println("7. Show the lessons learned on a stage of a project. ");
+        System.out.println("8. Show the project with most capsules. ");
+        System.out.println("9. Search if a worker has registered a capsule. ");
+        System.out.println("10. Exit.");
+        System.out.println(" ------------------------------------ ");
 
         
     }
@@ -66,6 +71,8 @@ public class Main {
 
             case 2:
                 finishStage();
+                startDates();
+                endDates();
                 break;
 
             case 3: 
@@ -82,6 +89,14 @@ public class Main {
             case 6:
                 showCountCapsuleType();
                 break;
+            case 7:
+                showLessonsByStage();
+                break;
+            case 8:
+                showProjectWithMostCapsules();
+                break;
+            case 9:
+                showCapsuleByWorker();
 
             case -1: 
                 System.out.println("Invalid Option!!"); 
@@ -142,6 +157,8 @@ public class Main {
         String projectName = " ";
         String expectedStartDateStageStr = " ";
         String realStartStageDateStr = " ";
+        int expectedMonths = 0;
+        
 
         System.out.println("Confirm the name of the project: ");
         projectName = reader.next();
@@ -152,10 +169,46 @@ public class Main {
         System.out.println("Type the real start date for the first stage: ");
         realStartStageDateStr = reader.next();
         Calendar realStartDate = stringsToCalendar(realStartStageDateStr);
+        System.out.println("Type the months for the first stage:");
+        expectedMonths = reader.nextInt();
 
-        controller.initializeStages(projectName, expectedStartDateStage, realStartDate);
+        
+
+        controller.initializeStages(projectName, expectedStartDateStage, realStartDate, expectedMonths);
+
+        System.out.println("Confirm the name of the project, to set the dates: ");
+        projectName = reader.next();
+
+        controller.setStartDate(projectName);
+        controller.setEndDate(projectName, expectedMonths);
 
         System.out.println("The project has been registed succesfully.");
+    }
+
+  /**
+   * This function prompts the user to confirm the name of a project and sets its start date 
+   */
+    public void startDates(){
+        String projectName = "";
+        System.out.println("Confirm the name of the project. ");
+        projectName = reader.next();
+        controller.setStartDate(projectName);
+    }
+    /**
+     * This function prompts the user to confirm and input the project name and duration in months, and
+     * then sets the end date for the project using a controller.
+     */
+    public void endDates(){
+        String projectName = "";
+        int amountOfMonths = 0;
+
+        System.out.println("Confirm again to set the end dates. ");
+        projectName = reader.next();
+
+        System.out.println("Type the amount of months of duration. ");
+        amountOfMonths = reader.nextInt();
+
+        controller.setEndDate(projectName, amountOfMonths);
     }
 
    /**
@@ -315,18 +368,69 @@ public class Main {
         return newDate; 
     }
 
+    /**
+     * This function checks if a project exists and shows the count of a specific type of capsule if it
+     * does, otherwise it prints a message saying there is no project created yet.
+     */
     public void showCountCapsuleType(){
         boolean flag = controller.checkProject();
         
         if( flag == true){
-            controller.showCount1();
+            String msg = controller.showCount1();
+            System.out.println(msg);
         }
         else if(flag == false){
             System.out.println("There is no project created yet");
         }
-        
+    }
+
+    /**
+     * This function prompts the user to input a project name and select a stage, then calls a
+     * controller method to display learned lessons for that project and stage.
+     */
+    public void showLessonsByStage(){
+
+        String projectName = " ";
+        int stagePosition = 0;
+
+        System.out.println("Type the name of the project: ");
+        projectName = reader.next();
+
+        System.out.println("Select the stage: ");
+        System.out.println("1. Start . ");
+        System.out.println("2. Analisys. ");
+        System.out.println("3. Design. ");
+        System.out.println("4. Execution. ");
+        System.out.println( "5. Close.");
+        System.out.println("6. Follow up and control. ");
+        stagePosition = reader.nextInt();
+
+        String msg = controller.showLearnedLessonsByStage(projectName, stagePosition);
+        System.out.println(msg);
+    }
+
+    public void showProjectWithMostCapsules(){
+
+        String msg = controller.getProjectWithMostUnits();
+        System.out.println(msg);
 
     }
+   /**
+    * This function prompts the user to input an employee name, retrieves a message containing
+    * capsules associated with that employee from a controller, and prints the message to the console.
+    */
+    public void showCapsuleByWorker(){
+
+        String workerName;
+
+        System.out.println("Type the name of the employee. ");
+        workerName = reader.next();
+
+        String msg = controller.getCapsulesByWorker(workerName);
+        System.out.println(msg);
+    }
+
+
 
 
     

@@ -49,6 +49,15 @@ public class Capsule {
         return approveState;
     }
    /**
+    * The function returns the name of an employee.
+    * 
+    * @return The method `getEmployeeName()` is returning the value of the variable `nameEmployee`,
+    * which is likely the name of an employee.
+    */
+    public String getEmployeeName(){
+        return nameEmployee;
+    }
+   /**
     * This function returns a boolean value indicating whether an item has been published or not.
     * 
     * @return The method is returning a boolean value, specifically the value of the variable
@@ -100,6 +109,10 @@ public class Capsule {
      */
     public void setPublished(boolean newStatus){
         this.published = newStatus;
+    }
+
+    public String getLessonLearned(){
+        return lessonLearned;
     }
 
      

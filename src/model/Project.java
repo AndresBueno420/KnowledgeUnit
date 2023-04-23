@@ -79,5 +79,25 @@ public class Project {
             stages[pos] = stage;
         }
     }
+    /**
+     * This function returns the total number of capsules across all stages in a game.
+     * 
+     * @return The method is returning an integer value which represents the total number of capsules
+     * in all stages of the program.
+     */
+    public int getAmountOfCapsules(){
+        int amount = 0;
+
+        for(int i = 0; i < getStages().length; i++ ){
+            if(getStages()[i] != null){
+                for(int x = 0; x < getStages()[x].getCapsules().length; x++){
+                    if(getStages()[i].getCapsules()[x] != null){
+                        amount += 1;
+                    }
+                }
+            }
+        }
+        return amount;
+    }
     
 }
