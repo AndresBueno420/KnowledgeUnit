@@ -126,7 +126,7 @@ public class Controller {
      * @param lessonLearned lessonLearned is a String parameter that represents the lesson learned from
      * the capsule being added.
      */
-    public void addCapsule(String projectName, String capsuleId, int type, String capsuledescription, String nameEmployee, String chargeEmployee, String lessonLearned ){
+    public void addCapsule(String projectName, String capsuleId, int type, String capsuledescription, String nameEmployee, String chargeEmployee, String lessonLearned, String hashtags ){
 
         boolean projectFound = false;
         boolean stageFound = false;
@@ -152,7 +152,7 @@ public class Controller {
         }
 
 
-        Capsule capsule = new Capsule(capsuleId, capsuledescription, nameEmployee, chargeEmployee, lessonLearned, capsuleCategory);
+        Capsule capsule = new Capsule(capsuleId, capsuledescription, nameEmployee, chargeEmployee, lessonLearned, capsuleCategory, hashtags);
         for(int i = 0; i < SIZE_PROJECT && !projectFound ; i++){
             if(projects[i].getName().equals(projectName)){
                 Stages[] stages = projects[i].getStages();
@@ -471,6 +471,7 @@ public class Controller {
 
 
     }
+  
 
    /**
     * This function sets the start date of a project stage based on the end date of the previous stage.
@@ -526,10 +527,28 @@ public class Controller {
 			}
 		}
         
-
-
-
     }
+
+    public String getLessonsWithHashtag(String hashtag){
+        String msg = "";
+
+        for(int i = 0; i < SIZE_PROJECT; i++){
+            if(projects[i] != null){
+                Stages[] stages = projects[i].getStages();
+                for(int x = 0; x++ < stages.length; x++){
+                    Capsule[] capsules = stages[x].getCapsules();
+                    for(int y = 0; y < capsules.length; y++){
+                        if(capsules[y] != null && capsules[y].getApprove() == true && capsules[y].getPublished() == true){
+							msg += capsules[y].getLessonsWithHashtag(hashtag);
+						}
+                    }
+                }
+            }
+        }
+        return msg;
+    }
+
+    
     
     
 

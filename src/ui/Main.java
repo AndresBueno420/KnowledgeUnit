@@ -251,6 +251,7 @@ public class Main {
         String workerCharge = "";
         String lection = "";
         int type;
+        String hashtags = " ";
         String projectName = " ";
 
         if(flag == true){
@@ -268,6 +269,10 @@ public class Main {
             System.out.println("Type the lection to save: ");
             reader.next();
             lection = reader.nextLine(); 
+            System.out.println("Type the hashtags asociated: ");
+            reader.next();
+            hashtags = reader.nextLine();
+
             System.out.println("Choose the type of capsule :"); 
             System.out.println(" 1. for Technic");
             System.out.println(" 2. for Management. ");
@@ -275,7 +280,7 @@ public class Main {
             System.out.println(" 4. for Experience. ");
             type = reader.nextInt();
 
-        controller.addCapsule(projectName, id, type, description, workerName, workerCharge,lection);
+        controller.addCapsule(projectName, id, type, description, workerName, workerCharge,lection,hashtags);
 
         System.out.println("The capsule has been registed.");
             

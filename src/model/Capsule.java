@@ -7,6 +7,7 @@ public class Capsule {
     private String type; 
     private String nameEmployee;
     private String chargeEmployee;
+    private String hashtag;
     private String lessonLearned;
     private boolean published;
     private Calendar publishDate;
@@ -18,13 +19,14 @@ public class Capsule {
  // type, nameEmployee, chargeEmployee, and lessonLearned. It initializes the instance variables of the
  // Capsule object with the values passed in as parameters, and sets the published and approveState
  // variables to false.
-    public Capsule( String id, String description, String nameEmployee, String chargeEmployee, String lessonLearned, Type capsuleType){
+    public Capsule( String id, String description, String nameEmployee, String chargeEmployee, String lessonLearned, Type capsuleType, String hashtag){
         this.id = id;
         this.description = description;
         this.capsuleType = capsuleType;
         this.nameEmployee = nameEmployee;
         this.chargeEmployee = chargeEmployee;
         this.lessonLearned = lessonLearned;
+        this.hashtag = hashtag;
         this.published = false;
         this.approveState = false;
     
@@ -113,6 +115,19 @@ public class Capsule {
 
     public String getLessonLearned(){
         return lessonLearned;
+    }
+
+    public String getLessonsWithHashtag(String hashtag){
+
+        String msg = " ";
+        String[] keywords = hashtag.split("#");
+
+        for(int i = 0; i < keywords.length; i++){
+            if(keywords[i].equals(hashtag)){
+                msg = lessonLearned;
+            }
+        }
+        return msg;
     }
 
      
