@@ -113,18 +113,23 @@ public class Controller {
 
   
   
+   
     /**
-     * This function adds a capsule to a project's active stage based on the given parameters.
+     * This function adds a capsule to a specific project and stage, based on its
+     * parameters.
      * 
      * @param projectName The name of the project to which the capsule will be added.
      * @param capsuleId A unique identifier for the capsule being added.
      * @param type An integer representing the type of capsule being added.
      * @param capsuledescription A description of the capsule being added.
      * @param nameEmployee The name of the employee who created the capsule.
-     * @param chargeEmployee The chargeEmployee parameter is a String that represents the name of the
-     * employee who is in charge of the capsule being added.
+     * @param chargeEmployee The chargeEmployee parameter is a String that represents the person in
+     * charge of the capsule.
      * @param lessonLearned lessonLearned is a String parameter that represents the lesson learned from
      * the capsule being added.
+     * @param hashtags hashtags are a string of keywords or phrases preceded by the pound sign (#) used
+     * to categorize and organize content on social media platforms. In this context, it is used as a
+     * parameter to addCapsule() method to add hashtags to a Capsule object.
      */
     public void addCapsule(String projectName, String capsuleId, int type, String capsuledescription, String nameEmployee, String chargeEmployee, String lessonLearned, String hashtags ){
 
@@ -529,8 +534,16 @@ public class Controller {
         
     }
 
+   /**
+    * This Java function returns a string of lessons that contain a specific hashtag by iterating
+    * through all projects, stages, and capsules.
+    * 
+    * @param hashtag A String representing the hashtag to search for in the lessons.
+    * @return The method is returning a String that contains all the lessons that have the specified
+    * hashtag.
+    */
     public String getLessonsWithHashtag(String hashtag){
-        String msg = "";
+        String msg = "No projects found. ";
 
         for(int i = 0; i < SIZE_PROJECT; i++){
             if(projects[i] != null){
